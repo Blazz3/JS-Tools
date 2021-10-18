@@ -1,0 +1,392 @@
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>SearchQueryGen</title>
+		<meta name="description" content="SearchQueryGen">
+		<meta name="author" content="Blazz3">
+
+		<link rel="stylesheet" href="">
+		<link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAHIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAABEREAABEQAAEREQAAAREAAAAAAAAAERAAAAAAAAABEQAAAAAAABEQAAAAAAABEQAAAAAAABEQAAAAAAAAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" rel="icon" type="image/x-icon" />
+		
+		<style>
+			.content {
+				margin: auto;
+			}
+			body {
+				color: white;
+				background-color: black;
+			}
+		</style>
+
+		<script>
+			const AD = `
+			3gstudent.github.io
+			ired.team
+			labofapenetrationtester.com
+			specterops.io
+			harmj0y.net 
+			adsecurity.org
+			xpnsec.com
+			rastamouse.me
+			netspi.com
+			bohops.com
+			mdsec.co.uk
+			ijustwannared.team
+			test.com
+			`
+			
+			const COURSES = `
+			freeeducationweb.com
+			coursedrive.us
+			freecoursesite.us
+			coursecatalog.us
+			learningdl.net 
+			tut4dl.com
+			technet24.ir
+			ttorial.com
+			rstforums.com
+			sanet.ws
+			`
+			
+			const WRITEUPS = `
+			hackerone.com
+			medium.com
+			pentester.land/list-of-bug-bounty-writeups.html
+			github.com/devanshbatham/Awesome-Bugbounty-Writeups
+			www.rcesecurity.com
+			`
+			
+			const LOGICAL = `
+			www.activecyber.us
+			heynowyouseeme.blogspot.com
+			enigma0x3.net
+			www.tiraniddo.dev
+			googleprojectzero.blogspot.com
+			posts.specterops.io
+			www.atredis.com
+			krbtgt.pw
+			itm4n.github.io
+			decoder.cloud
+			padovah4ck.github.io
+			amonitoring.ru
+			offsec.almond.consulting
+			rhinosecuritylabs.com
+			blog.diffense.com
+			billdemirkapi.me
+			halove23.blogspot.com
+			ssd-disclosure.com
+			voidsec.com
+			labs.redyops.com
+			www.seljan.hu
+			zeifan.my
+			danishcyberdefence.dk
+			labs.f-secure.com
+			www.safebreach.com
+			www.cyberark.com
+			cymptom.com
+			`
+			
+			const PENTEST = `
+			0xdf.gitlab.io
+			0xsp.com
+			bitvijays.github.io
+			blog.securehat.co.uk
+			book.hacktricks.xyz
+			burmat.gitbook.io
+			catharsis.net.au
+			ceso.github.io
+			cheatsheet.haax.fr
+			chickenpwny.github.io
+			cs.piosky.fr
+			d00mfist1.gitbooks.io
+			daniel2005d.gitbook.io
+			gandosha.github.io
+			gbhackers.com
+			guide.offsecnewbie.com
+			guif.re
+			hackanythingfor.blogspot.com
+			hackingandsecurity.blogspot.com
+			hausec.com
+			highon.coffee
+			hunter2.gitbook.io
+			jackawatt.github.io
+			kalitut.com
+			kbase.ayoma.me
+			malikashish8.github.io
+			mfnttps.github.io
+			morph3sec.com
+			mpgn.gitbook.io
+			nakkaya.com
+			nullsweep.com
+			phonexicum.github.io
+			ptestmethod.readthedocs.io
+			pwn.no0.be
+			scund00r.com
+			six2dez.gitbook.io
+			snovvcrash.rocks
+			sushant747.gitbooks.io
+			uppusaikiran.github.io
+			virgil-cj.blogspot.com
+			wiki.devploit.dev
+			www.ired.team
+			www.jaiminton.com
+			www.jdksec.com
+			www.kyylee.com
+			www.redteam.cafe
+			`
+			const LINUX = `
+			gtfobins.github.io
+			blog.g0tmi1k.com
+			payatu.com
+			myexperiments.io
+			blackwintersecurity.com
+			community.turgensec.com
+			hackmag.com
+			www.hackingdream.net
+			simplecheatsheet.com
+			muhammadnasef.com
+			`
+			const TRICKS = `
+			awakened1712.github.io
+			fir3wa1-k3r.github.io
+			jivoi.github.io
+			kingx.me
+			blog.ropnop.com
+			ebfe.pw
+			0xdf.gitlab.io
+			`
+			const WEB = `
+			ansar0047.medium.com
+			ardern.io
+			blog.assetnote.io
+			blog.cobalt.io
+			blog.safebuff.com
+			blog.trailofbits.com
+			book.hacktricks.xyz
+			canarytokens.com
+			corneacristian.medium.com
+			digi.ninja
+			gowsundar.gitbook.io
+			gowthams.gitbook.io
+			guif.re
+			hackersonlineclub.com
+			los.rubiya.kr
+			m0chan.github.io
+			medium.com
+			netsec.expert
+			owasp.org
+			pentestmag.com
+			phonexicum.github.io
+			portswigger.net
+			raviramesh.info
+			six2dez.gitbook.io
+			snifer.gitbooks.io
+			sqlwiki.netspi.com
+			swarm.ptsecurity.com
+			trustfoundry.net
+			waf.cumulusfire.net
+			websec.ca
+			www.binarybrotherhood.io
+			www.gracefulsecurity.com
+			www.hahwul.com
+			www.infosecmatter.com
+			www.netsparker.com
+			www.noob.ninja
+			www.notion.so
+			www.notsosecure.com
+			www.offensity.com
+			www.onsecurity.io
+			www.synack.com
+			www.templarbit.com
+			www.xss-payloads.com
+			xapax.gitbooks.io
+			`
+			const WINDOWS = `
+			blog.ropnop.com
+			book.hacktricks.xyz
+			c0ldstudy.github.io
+			cas.vancooten.com
+			casvancooten.com
+			cheats.philkeeble.com
+			cs.piosky.fr
+			dmcxblue.gitbook.io
+			docs.google.com
+			gracefulsecurity.com
+			h4ms1k.github.io
+			ldapwiki.com
+			lolbas-project.github.io
+			m0chan.github.io
+			medium.com
+			morph3sec.com
+			mysecurityjournal.blogspot.com
+			obscuritylabs.github.io
+			patchchecker.com
+			pentest.blog
+			riccardoancarani.github.io
+			sec-consult.com
+			sevrosecurity.com
+			sh1yan.top
+			syhack.wordpress.com
+			tryhackme.com
+			virgil-cj.blogspot.com
+			wadcoms.github.io
+			www.absolomb.com
+			www.andreafortuna.org
+			www.fuzzysecurity.com
+			www.mindmeister.com
+			www.thehacker.recipes
+			yoga7xm.top
+			zer1t0.gitlab.io
+			`
+			
+			function onlyOne(checkbox) {
+				var checkboxes = document.getElementsByName('check')
+				checkboxes.forEach((item) => {
+					if (item !== checkbox) item.checked = false
+				})
+			}
+			
+			function search() {
+				
+				var google = document.getElementById("google");
+				var bing = document.getElementById("bing");
+				var duckduckgo = document.getElementById("duckduckgo");
+				
+				if (google.checked){
+					var search_engine = "https://google.com/search?q=";
+				}
+				else if(bing.checked){
+					var search_engine = "https://bing.com/search?q=";
+				}
+				else if(duckduckgo.checked){
+					var search_engine = "https://duckduckgo.com/?q=";
+				}
+				
+				var word = document.getElementById("word").value;
+				var opt = document.getElementById("opts").value;
+				var spl = document.getElementById("split").value;
+				
+				if (spl != "") {
+					var chunk_n = parseInt(spl);
+				}
+				else {
+					var chunk_n = 30;
+				}
+					
+				if (word != "") {
+					if (opt == 1) {
+						var terms = AD.split("\n\t\t");
+					}
+					else if (opt == 2) {
+						var terms = COURSES.split("\n\t\t");
+					}
+					else if (opt == 3) {
+						var terms = WRITEUPS.split("\n\t\t");
+					}
+					else if (opt == 4) {
+						var terms = LOGICAL.split("\n\t\t");
+					}
+					else if (opt == 5) {
+						var terms = PENTEST.split("\n\t\t");
+					}
+					else if (opt == 6) {
+						var terms = LINUX.split("\n\t\t");
+					}
+					else if (opt == 7) {
+						var terms = TRICKS.split("\n\t\t");
+					}
+					else if (opt == 8) {
+						var terms = WEB.split("\n\t\t");
+					}
+					else if (opt == 9) {
+						var terms = WINDOWS.split("\n\t\t");
+					}
+				}
+			
+			terms = terms.filter(item => item);
+			
+			var i,j, temporary, chunk = chunk_n;
+			for (i = 0,j = terms.length; i < j; i += chunk) {
+				temporary = terms.slice(i, i + chunk);
+				var newtemp = temporary.map(item => 'site:' + item);
+				var finalt = word + ' ' + newtemp.join(' OR ');
+				window.open(search_engine + finalt);
+			}
+			
+			}
+		
+		</script>
+
+	</head>
+
+	<body>
+		<div style="text-align: center;">
+		
+			<pre>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;ryGen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Searc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enSea&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;GenSea&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;er&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;archQue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SearchQ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;Se&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hQ&nbsp;&nbsp;&nbsp;yG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rc&nbsp;&nbsp;&nbsp;er&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;rc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GenSea&nbsp;&nbsp;&nbsp;Query&nbsp;&nbsp;nSea&nbsp;&nbsp;hQuery&nbsp;&nbsp;&nbsp;Search&nbsp;&nbsp;er&nbsp;&nbsp;&nbsp;nS&nbsp;&nbsp;rc&nbsp;&nbsp;ue&nbsp;&nbsp;GenSea&nbsp;&nbsp;&nbsp;Quer&nbsp;&nbsp;en&nbsp;&nbsp;ar&nbsp;&nbsp;Qu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;earchQ&nbsp;&nbsp;ryGenS&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;ueryG&nbsp;&nbsp;Se&nbsp;&nbsp;ch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;en&nbsp;&nbsp;ar&nbsp;h&nbsp;&nbsp;er&nbsp;&nbsp;en&nbsp;&nbsp;&nbsp;rc&nbsp;&nbsp;ue&nbsp;&nbsp;Ge&nbsp;&nbsp;&nbsp;ar&nbsp;&nbsp;Qu&nbsp;&nbsp;yG&nbsp;&nbsp;Se&nbsp;&nbsp;ch&nbsp;&nbsp;&nbsp;ry&nbsp;e&nbsp;&nbsp;ea&nbsp;&nbsp;hQ&nbsp;&nbsp;ry&nbsp;enSe&nbsp;&nbsp;ch&nbsp;&nbsp;er&nbsp;&nbsp;en&nbsp;&nbsp;ar&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nS&nbsp;&nbsp;rchQue&nbsp;&nbsp;&nbsp;enSea&nbsp;&nbsp;hQ&nbsp;&nbsp;&nbsp;&nbsp;Ge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qu&nbsp;&nbsp;yG&nbsp;&nbsp;Se&nbsp;&nbsp;&nbsp;hQ&nbsp;&nbsp;ry&nbsp;&nbsp;nS&nbsp;&nbsp;rchQue&nbsp;&nbsp;&nbsp;en&nbsp;&nbsp;&nbsp;&nbsp;ch&nbsp;&nbsp;er&nbsp;&nbsp;en&nbsp;earc&nbsp;&nbsp;ueryGe&nbsp;&nbsp;ea&nbsp;&nbsp;hQ&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ar&nbsp;&nbsp;Query&nbsp;&nbsp;&nbsp;Search&nbsp;&nbsp;er&nbsp;&nbsp;&nbsp;&nbsp;Se&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ry&nbsp;&nbsp;nS&nbsp;&nbsp;rc&nbsp;&nbsp;&nbsp;er&nbsp;&nbsp;en&nbsp;&nbsp;ar&nbsp;&nbsp;Query&nbsp;&nbsp;&nbsp;&nbsp;ea&nbsp;&nbsp;&nbsp;&nbsp;ue&nbsp;&nbsp;Ge&nbsp;&nbsp;ea&nbsp;&nbsp;&nbsp;Qu&nbsp;&nbsp;yGenS&nbsp;&nbsp;&nbsp;ch&nbsp;&nbsp;er&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hQ&nbsp;&nbsp;ry&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rc&nbsp;&nbsp;ue&nbsp;&nbsp;Ge&nbsp;&nbsp;&nbsp;&nbsp;rc&nbsp;&nbsp;ue&nbsp;&nbsp;&nbsp;en&nbsp;&nbsp;ar&nbsp;&nbsp;Qu&nbsp;&nbsp;yGe&nbsp;&nbsp;ea&nbsp;&nbsp;hQ&nbsp;&nbsp;ry&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ch&nbsp;&nbsp;&nbsp;&nbsp;yGenSe&nbsp;&nbsp;ch&nbsp;&nbsp;ery&nbsp;&nbsp;nS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ue&nbsp;&nbsp;Ge&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;chQue&nbsp;&nbsp;&nbsp;&nbsp;nSear&nbsp;&nbsp;&nbsp;ueryG&nbsp;&nbsp;Se&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uery&nbsp;&nbsp;&nbsp;&nbsp;ea&nbsp;&nbsp;hQ&nbsp;&nbsp;&nbsp;yGenS&nbsp;&nbsp;&nbsp;&nbsp;hQuer&nbsp;&nbsp;&nbsp;nSear&nbsp;&nbsp;&nbsp;ue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se&nbsp;rc&nbsp;&nbsp;&nbsp;eryGe&nbsp;&nbsp;&nbsp;&nbsp;rchQu&nbsp;&nbsp;yG&nbsp;&nbsp;Se&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Qu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;u&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;er&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</pre>
+		
+		</div>
+		
+		<div class="content">
+		
+			<form action="" onsubmit="event.preventDefault(); return search();">
+				<div style="text-align: center;">
+					<label for="word">Word:</label>
+					<input type="text" id="word" name="word" autofocus><br><br>
+				</div>
+
+				<div style="text-align: center;">
+					<label for="opts">Option:</label>
+					<select id="opts">
+						<option value="1" selected="">AD-Hacking</option>
+						<option value="2">IT-Courses</option>
+						<option value="3">BB-WriteUps</option>
+						<option value="4">LogicalBugs</option>
+						<option value="5">Pentest</option>
+						<option value="6">Linux</option>
+						<option value="7">Tricks</option>
+						<option value="8">Web</option>
+						<option value="9">Windows</option>
+					</select>
+					
+					<button type="submit">Search</button>
+				</div><br>
+				
+				<div style="text-align: center;">
+					<label for="word">Split at:</label>
+					<input type="split" id="split" name="split" value="30"><br><br>
+				</div>
+
+				<div style="text-align: center;">
+					<div>
+						<input type="checkbox" id="google" name="check" value="google" onclick="onlyOne(this)" checked>
+						<label for="google">Google</label><br>
+						<input type="checkbox" id="bing" name="check" value="bing" onclick="onlyOne(this)">
+						<label for="bing">Bing</label><br>
+						<input type="checkbox" id="duckduckgo" name="check" value="duckduckgo" onclick="onlyOne(this)">
+						<label for="duckduckgo">DuckDuckGo</label><br><br>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</body>
+
+</html>
