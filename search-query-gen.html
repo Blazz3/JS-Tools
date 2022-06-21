@@ -21,6 +21,19 @@
 		</style>
 
 		<script>
+			const CLOUD = `
+			0xn3va.gitbook.io
+			cloudsecdocs.com
+			cloudsecwiki.com
+			pentestbook.six2dez.com
+			hackingthe.cloud
+			securekubernetes.com
+			book.hacktricks.xyz
+			n3t-hunt3r.gitbook.io
+			infosecwriteups.com
+			www.aquasec.com
+			developer.cobalt.io`
+			
 			const AD = `
 			3gstudent.github.io
 			ired.team
@@ -34,8 +47,8 @@
 			bohops.com
 			mdsec.co.uk
 			ijustwannared.team
-			test.com
-			`
+			thehacker.recipes
+			digitalwhisper.co.il`
 			
 			const COURSES = `
 			freeeducationweb.com
@@ -47,16 +60,14 @@
 			technet24.ir
 			ttorial.com
 			rstforums.com
-			sanet.ws
-			`
+			sanet.ws`
 			
 			const WRITEUPS = `
 			hackerone.com
 			medium.com
 			pentester.land/list-of-bug-bounty-writeups.html
 			github.com/devanshbatham/Awesome-Bugbounty-Writeups
-			www.rcesecurity.com
-			`
+			www.rcesecurity.com`
 			
 			const LOGICAL = `
 			www.activecyber.us
@@ -85,8 +96,7 @@
 			labs.f-secure.com
 			www.safebreach.com
 			www.cyberark.com
-			cymptom.com
-			`
+			cymptom.com`
 			
 			const PENTEST = `
 			0xdf.gitlab.io
@@ -134,8 +144,8 @@
 			www.jaiminton.com
 			www.jdksec.com
 			www.kyylee.com
-			www.redteam.cafe
-			`
+			www.redteam.cafe`
+			
 			const LINUX = `
 			gtfobins.github.io
 			blog.g0tmi1k.com
@@ -146,8 +156,8 @@
 			hackmag.com
 			www.hackingdream.net
 			simplecheatsheet.com
-			muhammadnasef.com
-			`
+			muhammadnasef.com`
+			
 			const TRICKS = `
 			awakened1712.github.io
 			fir3wa1-k3r.github.io
@@ -155,8 +165,8 @@
 			kingx.me
 			blog.ropnop.com
 			ebfe.pw
-			0xdf.gitlab.io
-			`
+			0xdf.gitlab.io`
+			
 			const WEB = `
 			ansar0047.medium.com
 			ardern.io
@@ -201,8 +211,8 @@
 			www.synack.com
 			www.templarbit.com
 			www.xss-payloads.com
-			xapax.gitbooks.io
-			`
+			xapax.gitbooks.io`
+			
 			const WINDOWS = `
 			blog.ropnop.com
 			book.hacktricks.xyz
@@ -238,8 +248,7 @@
 			www.mindmeister.com
 			www.thehacker.recipes
 			yoga7xm.top
-			zer1t0.gitlab.io
-			`
+			zer1t0.gitlab.io`
 			
 			function onlyOne(checkbox) {
 				var checkboxes = document.getElementsByName('check')
@@ -303,6 +312,9 @@
 					else if (opt == 9) {
 						var terms = WINDOWS.split("\n\t\t");
 					}
+					else if (opt == 10) {
+						var terms = CLOUD.split("\n\t\t");
+					}
 				}
 			
 			terms = terms.filter(item => item);
@@ -364,6 +376,7 @@
 						<option value="7">Tricks</option>
 						<option value="8">Web</option>
 						<option value="9">Windows</option>
+						<option value="10">Cloud</option>
 					</select>
 					
 					<button type="submit">Search</button>
