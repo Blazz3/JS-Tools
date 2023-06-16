@@ -21,6 +21,20 @@
 		</style>
 
 		<script>
+			const BLANK = ` `
+			
+			const CLOUDKB = `
+			orca.security
+			www.cloudvulndb.org
+			snyk.io
+			research.splunk.com
+			stratus-red-team.cloud
+			snyk.io
+			avd.aquasec.com
+			gsl.dome9.com
+			docs.bridgecrew.io
+			docs.guardrails.io`
+		
 			const CLOUD = `
 			0xn3va.gitbook.io
 			cloudsecdocs.com
@@ -253,6 +267,31 @@
 			zer1t0.gitlab.io
 			cheats.philkeeble.com`
 			
+			const CHINESE = `
+			3gstudent.github.io
+			bbs.kanxue.com
+			cloud.tencent.com
+			cn-sec.com
+			hacky.ren
+			idiotc4t.com
+			laolisafe.com
+			mp.weixin.qq
+			paper.seebug.org
+			sec.today
+			vipread.com
+			wjlshare.com
+			www.anquanke.com
+			www.baidu.com
+			www.crisprx.top
+			www.csdn.net
+			www.digitalwhisper.co
+			www.freebuf.com
+			www.leiphone.com
+			www.so.com
+			www.zhihu.com
+			x.hacking8.com
+			zhuanlan.zhihu.com`
+			
 			function onlyOne(checkbox) {
 				var checkboxes = document.getElementsByName('check')
 				checkboxes.forEach((item) => {
@@ -265,6 +304,7 @@
 				var google = document.getElementById("google");
 				var bing = document.getElementById("bing");
 				var duckduckgo = document.getElementById("duckduckgo");
+				var baidu = document.getElementById("baidu");
 				
 				if (google.checked){
 					var search_engine = "https://google.com/search?q=";
@@ -274,6 +314,12 @@
 				}
 				else if(duckduckgo.checked){
 					var search_engine = "https://duckduckgo.com/?q=";
+				}
+				else if(baidu.checked){
+					var search_engine = "https://www.baidu.com/s?wd=";
+				}
+				else if(qihoo.checked){
+					var search_engine = "https://www.so.com/s?q=";
 				}
 				
 				var word = document.getElementById("word").value;
@@ -318,18 +364,45 @@
 					else if (opt == 10) {
 						var terms = CLOUD.split("\n\t\t");
 					}
+					else if (opt == 11) {
+						var terms = CLOUDKB.split("\n\t\t");
+					}
+					else if (opt == 12) {
+						var terms = CHINESE.split("\n\t\t");
+					}
+					else if (opt == 13) {
+						var terms = BLANK.split("\n\t\t");
+					}
 				}
 			
-			terms = terms.filter(item => item);
-			
-			var i,j, temporary, chunk = chunk_n;
-			for (i = 0,j = terms.length; i < j; i += chunk) {
-				temporary = terms.slice(i, i + chunk);
-				var newtemp = temporary.map(item => 'site:' + item);
-				var finalt = word + ' ' + newtemp.join(' OR ');
-				window.open(search_engine + finalt);
-			}
-			
+				terms = terms.filter(item => item);
+				
+				var i,j, temporary, chunk = chunk_n;
+				
+				for (i = 0,j = terms.length; i < j; i += chunk) {
+						temporary = terms.slice(i, i + chunk);
+						if (opt != 13) {
+							var newtemp = temporary.map(item => 'site:' + item);
+							let finalt_split = word.split(" ");
+							let final_word = "";
+							for (i in finalt_split) {
+								final_word+= '"' + finalt_split[i] + '" ';
+							}
+							var finalt = final_word + ' ' + newtemp.join(' OR ');
+							//var finalt = word + ' ' + newtemp.join(' ');
+						}
+						else {
+							var newtemp = temporary.map(item => '' + item);
+							let finalt_split = word.split(" ");
+							let final_word = "";
+							for (i in finalt_split) {
+								final_word+= '"' + finalt_split[i] + '" ';
+							}
+							var finalt = final_word + '' + newtemp.join('');
+							//var finalt = word + ' ' + newtemp.join(' ');
+						}
+						window.open(search_engine + finalt);
+					}
 			}
 		
 		</script>
@@ -380,6 +453,9 @@
 						<option value="8">Web</option>
 						<option value="9" selected="">Windows</option>
 						<option value="10">Cloud</option>
+						<option value="11">CloudKB</option>
+						<option value="12">Chinese</option>
+						<option value="13">BLANK</option>
 					</select>
 					
 					<button type="submit">Search</button>
@@ -397,7 +473,11 @@
 						<input type="checkbox" id="bing" name="check" value="bing" onclick="onlyOne(this)">
 						<label for="bing">Bing</label><br>
 						<input type="checkbox" id="duckduckgo" name="check" value="duckduckgo" onclick="onlyOne(this)">
-						<label for="duckduckgo">DuckDuckGo</label><br><br>
+						<label for="duckduckgo">DuckDuckGo</label><br>
+						<input type="checkbox" id="baidu" name="check" value="baidu" onclick="onlyOne(this)">
+						<label for="baidu">Baidu</label><br>
+						<input type="checkbox" id="qihoo" name="check" value="qihoo" onclick="onlyOne(this)">
+						<label for="qihoo">Qihoo360</label><br><br>
 					</div>
 				</div>
 			</form>
